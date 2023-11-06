@@ -4,6 +4,14 @@ const ToDo = () => {
 	const [todos, setTodos] = useState([]);
 	const [value, setValue] = useState('');
 	const [error, setError] = useState('');
+	const options = {
+		year: '2-digit',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+	};
+
 	return (
 		<div className='row'>
 			<div className='col-10 offset-1'>
@@ -15,7 +23,12 @@ const ToDo = () => {
 							setTodos(prevState => {
 								return [
 									...prevState,
-									{ id: crypto.randomUUID(), title: value, isCompleted: false },
+									{
+										id: crypto.randomUUID(),
+										title: value,
+										isCompleted: false,
+										date: Date.now(),
+									},
 								];
 							});
 							setError('');
@@ -53,7 +66,7 @@ const ToDo = () => {
 					gap: 10,
 				}}
 			>
-				{todos.map(({ id, isCompleted, title }) => {
+				{todos.map(({ id, isCompleted, title, date }) => {
 					return (
 						<li
 							style={{
@@ -63,7 +76,12 @@ const ToDo = () => {
 							key={id}
 							className={isCompleted ? 'text-decoration-line-through' : ''}
 						>
-							{title}
+							<div>
+								<strong>{title}</strong>
+								<br />
+								<p>{new Date(date).toLocaleDateString('en-US', options)}</p>
+							</div>
+
 							<div>
 								<button
 									className='btn btn-secondary'
