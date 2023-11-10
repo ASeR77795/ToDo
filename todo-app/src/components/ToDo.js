@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ToDo = () => {
-	const [todos, setTodos] = useState([]);
-	const [value, setValue] = useState('');
-	const [error, setError] = useState('');
+	const [todos, setTodos] = useState(
+		localStorage.todos ? JSON.parse(localStorage.todos) : []
+	);
+	const [value, setValue] = useState(
+		localStorage.value ? JSON.parse(localStorage.value) : ''
+	);
+	const [error, setError] = useState(
+		localStorage.error ? localStorage.error : ''
+	);
 	const options = {
 		year: '2-digit',
 		month: '2-digit',
@@ -11,6 +17,15 @@ const ToDo = () => {
 		hour: '2-digit',
 		minute: '2-digit',
 	};
+	useEffect(() => {
+		localStorage.todos = JSON.stringify(todos);
+	}, [todos]);
+	useEffect(() => {
+		localStorage.error = JSON.stringify(error);
+	}, [error]);
+	useEffect(() => {
+		localStorage.value = JSON.stringify(value);
+	}, [value]);
 
 	return (
 		<div className='row'>
